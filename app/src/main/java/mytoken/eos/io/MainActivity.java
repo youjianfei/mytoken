@@ -195,12 +195,12 @@ public class MainActivity extends Activity {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 Uri uri = Uri.parse(message);
-                if ( uri.getScheme().equals("ete")) {
+                if ( uri.getScheme().equals("mytoken")) {
 
                     // 如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议
                     // 所以拦截url,下面JS开始调用Android需要的方法
                     Log.i("ceshi",uri.getAuthority()+".....2");
-                    webView.stopLoading();
+//                    webView.stopLoading();
                     if(uri.getAuthority().equals("scan")){
                         erweima();
                     }else {
@@ -352,6 +352,7 @@ public class MainActivity extends Activity {
         if (requestCode == 111 && resultCode == RESULT_OK) {
             if (data != null) {
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
+                erweima ="https://www.eosmytoken.io/app/index/tout.html?address=";
                 erweima=erweima+content;
                 if(content!=null||!content.equals("")){
                     show();
