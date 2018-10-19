@@ -48,9 +48,9 @@ public class MainActivity extends Activity {
     AutoUpdate autoUpdate;
 
     //URL
-//    String  index="http://www.eoskoreanode.com/t.html";//测试不信任证书 404  500等
-    String  index="https://www.eosmytoken.io/app/index/index.html";
-    String  erweima ="https://www.eosmytoken.io/app/index/tout.html?address=";//二维码拼接链接
+//    String  index="http://eoskoreanode.com/t.html";//测试不信任证书 404  500等
+    String  index="https://eosmytoken.io/app/index/index.html";
+    String  erweima ="https://eosmytoken.io/app/index/tout.html?address=";//二维码拼接链接
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,9 +137,9 @@ public class MainActivity extends Activity {
                 if(newProgress==100){
                     mPrigressBer.setVisibility(View.GONE);//加载完网页进度条消失
                     LogUtils.LOG("ceshi",webView.getUrl(),"网址");
-                    if(webView.getUrl().contains("https://www.eosmytoken.io/app/index/index.html")||
-                            webView.getUrl().contains("https://www.eosmytoken.io/app/news/index.html")||
-                                    webView.getUrl().contains("https://www.eosmytoken.io/app/user/index.html")
+                    if(webView.getUrl().contains("https://eosmytoken.io/app/index/index.html")||
+                            webView.getUrl().contains("https://eosmytoken.io/app/news/index.html")||
+                                    webView.getUrl().contains("https://eosmytoken.io/app/user/index.html")
 //                    ||webView.getUrl().contains("http://app.ete-coin.com/app/user/index.html")
                             ){
                         webView.clearHistory();
@@ -352,7 +352,7 @@ public class MainActivity extends Activity {
         if (requestCode == 111 && resultCode == RESULT_OK) {
             if (data != null) {
                 String content = data.getStringExtra(Constant.CODED_CONTENT);
-                erweima ="https://www.eosmytoken.io/app/index/tout.html?address=";
+                erweima ="https://eosmytoken.io/app/index/tout.html?address=";
                 erweima=erweima+content;
                 if(content!=null||!content.equals("")){
                     show();

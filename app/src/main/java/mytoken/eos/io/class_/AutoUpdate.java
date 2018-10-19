@@ -83,7 +83,7 @@ public class AutoUpdate {
     /**
      * 联网查询版本
      */
-    String newdownurl = "https://www.eosmytoken.io/api/index/update";//下载apk网址
+    String newdownurl = "https://eosmytoken.io/api/index/update";//下载apk网址
     public  void requestVersionData() {
 
         new Volley_Utils(new Interface_volley_respose() {
@@ -116,7 +116,7 @@ public class AutoUpdate {
             public void onError(int error) {
 
             }
-        }).Http("https://www.eosmytoken.io/api/index/update", activity, 0);
+        }).Http("https://eosmytoken.io/api/index/update", activity, 0);
     }
     /**
      * 得到当前版本号
