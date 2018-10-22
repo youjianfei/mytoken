@@ -26,6 +26,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
 import mytoken.eos.io.Interface.InterfacePermission;
 
 
@@ -64,6 +65,13 @@ public class MainActivity extends Activity {
     }
 
     private void initdata() {
+        /**
+         * 极光推送
+         */
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        String jpushid = JPushInterface.getRegistrationID(getApplicationContext());
+        LogUtils.LOG("ceshi", "JpushId~~" +jpushid, "mainactivity");
         permissionHelper = new PermissionHelper(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA }, 100);
         updata();
     }
