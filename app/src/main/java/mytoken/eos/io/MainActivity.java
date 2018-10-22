@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
     //URL
 //    String  index="http://eoskoreanode.com/t.html";//测试不信任证书 404  500等
     String  index="https://eosmytoken.io/app/index/index.html";
+//    String  index="https://eosmytoken.io/app/index/index.html";
     String  erweima ="https://eosmytoken.io/app/index/tout.html?address=";//二维码拼接链接
 
     @Override
