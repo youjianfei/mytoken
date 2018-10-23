@@ -33,13 +33,17 @@ import mytoken.eos.io.Interface.InterfacePermission;
 import mytoken.eos.io.class_.AutoUpdate;
 import mytoken.eos.io.class_.LogUtils;
 import mytoken.eos.io.class_.Permissionmanage;
+import mytoken.eos.io.class_.StaticData;
 import mytoken.eos.io.class_.ToastUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.master.permissionhelper.PermissionHelper;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
-public class MainActivity extends Activity {
+import static mytoken.eos.io.class_.StaticData.isPush;
+
+public class MainActivity extends Activity{
+        public static MainActivity mainActivity;
     //控件
     private WebView webView;
     ProgressBar  mPrigressBer;
@@ -48,11 +52,15 @@ public class MainActivity extends Activity {
     PermissionHelper permissionHelper;
     AutoUpdate autoUpdate;
 
+
+    String jpushid;
     //URL
 //    String  index="http://eoskoreanode.com/t.html";//测试不信任证书 404  500等
-    String  index="https://eosmytoken.io/app/index/index.html";
+    String  index="https://eosmytoken.io/app/index/index.html?pushid=";
 //    String  index="https://eosmytoken.io/app/index/index.html";
     String  erweima ="https://eosmytoken.io/app/index/tout.html?address=";//二维码拼接链接
+
+    String   uuuu="";//加载过的网页
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +78,11 @@ public class MainActivity extends Activity {
          */
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        String jpushid = JPushInterface.getRegistrationID(getApplicationContext());
+         jpushid = JPushInterface.getRegistrationID(getApplicationContext());
         LogUtils.LOG("ceshi", "JpushId~~" +jpushid, "mainactivity");
         permissionHelper = new PermissionHelper(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA }, 100);
         updata();
+        mainActivity = this;
     }
     void updata(){
 
@@ -113,10 +122,15 @@ public class MainActivity extends Activity {
         settings.setAllowFileAccess(true);
         // 将网页内容以单列显示
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        final String url = index;
+        final String url = index+jpushid;
 //        final String url = "file:///android_asset/text.html";
 
-        webView.loadUrl(url);
+        if(isPush){
+            webView.loadUrl(StaticData.JpushURL);
+        }else {
+            webView.loadUrl(url);
+        }
+
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String request) {
@@ -146,6 +160,7 @@ public class MainActivity extends Activity {
                 if(newProgress==100){
                     mPrigressBer.setVisibility(View.GONE);//加载完网页进度条消失
                     LogUtils.LOG("ceshi",webView.getUrl(),"网址");
+                    uuuu=webView.getUrl();
                     if(webView.getUrl().contains("https://eosmytoken.io/app/index/index.html")||
                             webView.getUrl().contains("https://eosmytoken.io/app/news/index.html")||
                                     webView.getUrl().contains("https://eosmytoken.io/app/user/index.html")
@@ -275,6 +290,12 @@ public class MainActivity extends Activity {
         mPrigressBer=findViewById(R.id.pb);
 //        mtextview=findViewById(R.id.textview);
     }
+    public   void showjpush(){
+        isPush=true;
+        webView.loadUrl(StaticData.JpushURL);
+        LogUtils.LOG("ceshi","ji光推送"+StaticData.JpushURL,"main");
+//        Toast.makeText(MainActivity.this,"调用了安卓", Toast.LENGTH_SHORT).show();
+    }
     public  void show(){
         webView.loadUrl(erweima);
 //        LogUtils.LOG("ceshi",erweima,"show");
@@ -327,13 +348,18 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - mLastTime > 2000) {
-            // 两次返回时间超出两秒
-            Toast.makeText(this, "再点一次退出程序", Toast.LENGTH_SHORT).show();
-            mLastTime = System.currentTimeMillis();
-        } else {
-            // 两次返回时间小于两秒，可以退出
-            finish();
+        //      https://eosmytoken.io\/app\/index\/log.html
+        if(uuuu.contains("https://eosmytoken.io/app/index/log.html")){
+        webView.loadUrl(index+jpushid);
+        }else {
+            if (System.currentTimeMillis() - mLastTime > 2000) {
+                // 两次返回时间超出两秒
+                Toast.makeText(this, "再点一次退出程序", Toast.LENGTH_SHORT).show();
+                mLastTime = System.currentTimeMillis();
+            } else {
+                // 两次返回时间小于两秒，可以退出
+                finish();
+            }
         }
     }
     @Override
@@ -377,5 +403,4 @@ public class MainActivity extends Activity {
             permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
 }

@@ -10,7 +10,11 @@ import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 import mytoken.eos.io.EntityBean.JpushBean;
+import mytoken.eos.io.MainActivity;
 import mytoken.eos.io.class_.LogUtils;
+import mytoken.eos.io.class_.StaticData;
+
+import static mytoken.eos.io.MainActivity.mainActivity;
 
 public class JpushBroadcastReceiver extends BroadcastReceiver {
     JpushBean  jpushBean;
@@ -28,6 +32,7 @@ public class JpushBroadcastReceiver extends BroadcastReceiver {
 
         if (extras != null && !extras.equals("")) {
             try {
+                LogUtils.LOG("ceshi", "接收的广播解析+" , "极光广播接收器");
                 JSONObject object = new JSONObject(extras);
                 type = (String) object.get("curType");
                 url = (String) object.get("url");
@@ -36,17 +41,18 @@ public class JpushBroadcastReceiver extends BroadcastReceiver {
             }
         }
 
-//        if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-//            if (type.equals("2")) {
-//                Intent mainIntent = new Intent(context, ShanghuMainActivity.class);
-//                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                Intent intent_bargain = new Intent(context, BarginmessageListActivity.class);
-//                intent_bargain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                Intent[] intents = {mainIntent, intent_bargain};
-//                context.startActivities(intents);
-//            }
-//
-//        }
+        if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+            LogUtils.LOG("ceshi","type+"+type,"推送");
+            if (type.equals("transfer")) {
+                StaticData.JpushURL=url;
+                StaticData.isPush=true;
+                Intent mainIntent = new Intent(context, MainActivity.class);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mainActivity.showjpush();
+                context.startActivity(mainIntent);
+            }
+
+        }
 
 
 
