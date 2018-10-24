@@ -97,6 +97,7 @@ public class MainActivity extends Activity{
                     //检测是否更新
                     autoUpdate = new AutoUpdate(MainActivity.this);
                     autoUpdate.requestVersionData();
+                    LogUtils.LOG("ceshi", "zidong更新~~" , "mainactivity");
 
                 } else {
                     Toast.makeText(MainActivity.this,"请开启存储权限",Toast.LENGTH_SHORT).show();

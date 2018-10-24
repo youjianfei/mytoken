@@ -89,6 +89,7 @@ public class AutoUpdate {
         new Volley_Utils(new Interface_volley_respose() {
             @Override
             public void onSuccesses(String respose) {
+                LogUtils.LOG("ceshi","联网查询的版本号是"+respose+"地址"+newdownurl,"updataapp");
 
                     checkVistionBean=new Gson().fromJson(respose,UpdataBean.class);
                     newdownurl = checkVistionBean.getUrl();//下载新版本的网址
@@ -100,11 +101,8 @@ public class AutoUpdate {
                         LogUtils.LOG("ceshi", "获得当前版本号出错","updataapp");
                         return;
                     } else {
-
                         if (curVersionCode < newVersion) {//有新版本
-
                             showUpdateDialog(newVersion, newdownurl);
-
                         } else {//没有新版本
                             return;
                         }
@@ -114,9 +112,9 @@ public class AutoUpdate {
 
             @Override
             public void onError(int error) {
-
+                LogUtils.LOG("ceshi","联网查询的版本号cuowu"+error+"地址"+newdownurl,"updataapp");
             }
-        }).Http("https://eosmytoken.io/api/index/update", activity, 0);
+        }).Http("http://eosmytoken.io/api/index/update", activity, 0);
     }
     /**
      * 得到当前版本号

@@ -38,10 +38,13 @@ public class Volley_Utils {
     }
 
     public void Http(String URL, Context mContext, int Method) {
+        LogUtils.LOG("ceshi","联网查询的版本号","voll");
         mQueue = Volley.newRequestQueue(mContext);
         mStringRequest = new StringRequest(Method, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                LogUtils.LOG("ceshi","正确"+response,"voll");
+
                 if (response != null || response.length() != 0) {
                     mInterface.onSuccesses(response);
                 }
@@ -49,9 +52,13 @@ public class Volley_Utils {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                LogUtils.LOG("ceshi","联网查询的版本号cuowu1111111111111"+"~~e"+error,"voll");
+
+
                 if (error.networkResponse != null) {
                     int code = error.networkResponse.statusCode;
                     mInterface.onError(code);
+                    LogUtils.LOG("ceshi","联网查询的版本号cuowu1111111111111"+"~~e"+error,"voll");
 
                 }
 
